@@ -1,0 +1,20 @@
+services:
+  argos:
+    build: .
+    container_name: hale-bopp-argos
+    ports:
+      - "8200:8200"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - ARGOS_AUDIT_LOG=/var/log/argos/audit.jsonl
+    volumes:
+      - argos_logs:/var/log/argos
+    networks:
+      - hale-bopp
+
+volumes:
+  argos_logs:
+
+networks:
+  hale-bopp:
+    driver: bridge
