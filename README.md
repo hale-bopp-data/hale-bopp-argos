@@ -1,25 +1,44 @@
 # hale-bopp-argos
 
-Policy gating and data quality engine — rule-based governance, audit logging.
+[![CI](https://github.com/hale-bopp-data/hale-bopp-argos/actions/workflows/ci.yml/badge.svg)](https://github.com/hale-bopp-data/hale-bopp-argos/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/Python-3.10+-green.svg)](https://python.org)
 
-ARGOS is the decision layer: it listens to events from DB and ETL modules, evaluates policies, and gates pipeline execution.
+Policy gating and data quality engine — rule-based governance, audit logging, zero AI.
+
+ARGOS is the decision layer: it evaluates events against configurable policies and gates pipeline execution.
+
+## Architecture
+
+```
+  Events from DB/ETL          ARGOS                     Decision
+  ┌──────────────┐      ┌──────────────┐          ┌──────────────┐
+  │ schema.deploy│      │              │          │              │
+  │ pipeline.fail│─────►│  Rule Engine │─────────►│  PASS / FAIL │
+  │ drift.detect │      │  :8200       │          │  + audit log │
+  │ dq.check     │      │              │          │              │
+  └──────────────┘      └──────────────┘          └──────────────┘
+```
 
 ## Features
 
 - **Gate Checking**: Evaluate events against configurable policies (DEFAULT, STRICT, PERMISSIVE)
 - **Rule Engine**: Pipeline failure, high-risk deploy, drift detection, null ratio checks
 - **Audit Logging**: Append-only JSONL audit trail for all policy evaluations
-- **Universal Events**: Receives and processes events from the HALE-BOPP ecosystem
+- **Universal Events**: Receives and processes events from the entire HALE-BOPP ecosystem
+- **Policy Profiles**: Switch between strictness levels without code changes
 
 ## Quick Start
 
 ```bash
-# Docker Compose
-docker compose up
+# Install
+pip install -e .
 
-# Or install locally
-pip install -r requirements.txt
+# Start the API server
 uvicorn app.main:app --host 0.0.0.0 --port 8200
+
+# Or use Docker Compose
+docker compose up
 ```
 
 ## API Endpoints
@@ -30,20 +49,46 @@ uvicorn app.main:app --host 0.0.0.0 --port 8200
 | `POST` | `/api/v1/events` | Log event for audit trail |
 | `GET` | `/api/v1/health` | Service health check |
 
+### Gate Check Example
+
+```bash
+curl -X POST http://localhost:8200/api/v1/gate/check \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event_type": "db.schema.deploy.completed",
+    "source": "hale-bopp-db",
+    "payload": {"risk_level": "high", "changes_count": 5},
+    "policy": "STRICT"
+  }'
+
+# Response: {"gate": "FAIL", "reason": "high-risk deploy blocked by STRICT policy"}
+```
+
 ## Testing
 
 ```bash
-pip install -r requirements.txt
+pip install -e .
+pip install pytest httpx
 pytest tests/ -v
 ```
 
+14 tests covering gate evaluation, rule engine, event processing, audit logging, and API endpoints.
+
 ## Part of HALE-BOPP
 
-HALE-BOPP is an open-source ecosystem of deterministic data governance engines:
+HALE-BOPP is an open-source ecosystem of deterministic data engines — the "muscles" that do the heavy lifting, no AI required.
 
-- [hale-bopp-db](https://github.com/hale-bopp-data/hale-bopp-db) — Schema governance
-- [hale-bopp-etl](https://github.com/hale-bopp-data/hale-bopp-etl) — Data orchestration
-- **hale-bopp-argos** (this repo) — Policy gating
+```
+  ┌──────────┐     event      ┌──────────┐     gate      ┌──────────┐
+  │ DB :8100 │ ─────────────► │ETL :3001 │ ◄──────────── │ARGOS:8200│
+  │ schema   │                │ pipeline │               │ policy   │
+  │ govern.  │                │ runner   │               │ gating   │
+  └──────────┘                └──────────┘               └──────────┘
+```
+
+- [hale-bopp-db](https://github.com/hale-bopp-data/hale-bopp-db) — Schema governance for PostgreSQL
+- [hale-bopp-etl](https://github.com/hale-bopp-data/hale-bopp-etl) — Config-driven data orchestration
+- **hale-bopp-argos** (this repo) — Policy gating and quality checks
 
 ## License
 
