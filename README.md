@@ -76,7 +76,9 @@ pytest tests/ -v
 
 ## Part of HALE-BOPP
 
-HALE-BOPP is an open-source ecosystem of deterministic data engines — the "muscles" that do the heavy lifting, no AI required.
+> *Sovereign by design. Cloud by choice.*
+
+HALE-BOPP is an open-source ecosystem of deterministic data engines — the "muscles" that do the heavy lifting, no AI required. Portable, replicable, and sovereign: your policy governance runs where you decide, not where a vendor tells you.
 
 ```
   ┌──────────┐     event      ┌──────────┐     gate      ┌──────────┐
@@ -89,6 +91,7 @@ HALE-BOPP is an open-source ecosystem of deterministic data engines — the "mus
 - [hale-bopp-db](https://github.com/hale-bopp-data/hale-bopp-db) — Schema governance for PostgreSQL
 - [hale-bopp-etl](https://github.com/hale-bopp-data/hale-bopp-etl) — Config-driven data orchestration
 - **hale-bopp-argos** (this repo) — Policy gating and quality checks
+- [marginalia](https://github.com/hale-bopp-data/marginalia) — Markdown vault quality scanner
 
 ## License
 
