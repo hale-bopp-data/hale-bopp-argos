@@ -14,7 +14,7 @@ tags: []
 |---|---|
 | Cosa | Python app — rule engine per data quality, policy validation |
 | Linguaggio | Python 3.11, Docker |
-| Branch | `feat→main` (NO develop) — PR target: `main` |
+| Branch | `feat→develop→main` (3-tier, G12 — develop OBBLIGATORIO) — PR target: `develop` |
 - **Tests**: 14
 
 ## Comandi rapidi
@@ -54,4 +54,4 @@ pyproject.toml       # Package metadata
 
 ---
 > Context Sync Engine | Master: `easyway-wiki/templates/agents-master.md`
-> Override: `easyway-wiki/templates/repo-overrides.yml` | Sync: 2026-04-14T15:00:13Z
+> Override: `easyway-wiki/templates/repo-overrides.yml` | Sync: 2026-04-14T17:49:02Z
