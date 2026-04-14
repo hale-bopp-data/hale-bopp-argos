@@ -13,7 +13,7 @@ tags: []
 # Guida: wiki/guides/repo/repo-semaphore.md
 
 # hale-bopp-argos — Policy Gating and Data Quality Engine
-# Branch: `feat→main` (NO develop) | Merge: no fast-forward
+# Branch: `feat→develop→main` (3-tier, G12 — develop OBBLIGATORIO) | Merge: no fast-forward
 - Remote primario: Azure DevOps (`dev.azure.com/EasyWayData`). PR, branch, CI/CD: TUTTO su ADO.
 - GitHub (`hale-bopp-data/hale-bopp-argos`): mirror pubblico per community.
 
@@ -76,4 +76,4 @@ tags: []
 
 ---
 > Context Sync Engine | Master: `easyway-wiki/templates/cursorrules-master.md`
-> Override: `easyway-wiki/templates/repo-overrides.yml` | Sync: 2026-04-14T15:00:13Z
+> Override: `easyway-wiki/templates/repo-overrides.yml` | Sync: 2026-04-14T17:49:02Z
